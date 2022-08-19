@@ -17,3 +17,10 @@ spec:
                 name: tickethub-auth-srv
                 port:
                   number: 3000
+          - path: /api/users/signup
+            pathType: Prefix
+            backend:
+              service:
+                name: tickethub-auth-srv
+                port:
+                  number: 3000
