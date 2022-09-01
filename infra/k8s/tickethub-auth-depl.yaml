@@ -15,6 +15,12 @@ spec:
       containers:
         - name: tickethub-auth
           image: yauheni1234321/tickethub-auth
+          env:
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: global-secrets
+                  key: JWT_SECRET
 ---
 apiVersion: v1
 kind: Service

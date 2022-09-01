@@ -33,6 +33,10 @@ app.all('*', async () => {
 app.use(errorHandler);
 
 const start = async () => {
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET must be defined');
+  }
+
   try {
     console.log('Connecting to the mongodb...');
     await mongoose.connect('mongodb://tickethub-auth-mongo-srv:27017/auth');
