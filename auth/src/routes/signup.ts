@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import { BadRequestError } from '../errors/bad-request-error';
 import { RequestValidationError } from '../errors/request-validation-error';
 import { User } from '../models/user';
+import { validateRequest } from '../middlewares/validate-request';
 
 const router = express.Router();
 
@@ -19,13 +20,8 @@ router.post(
       })
       .withMessage('The password must be longer than 8 symbols'),
   ],
+  validateRequest,
   async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      throw new RequestValidationError(errors.array());
-    }
-
     const { email, password } = req.body;
 
     const existingUser = await User.findOne({ email });
