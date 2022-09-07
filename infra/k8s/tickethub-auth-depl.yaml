@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tickethub-auth-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tickethub-auth
+  template:
+    metadata:
+      labels:
+        app: tickethub-auth
+    spec:
+      containers:
+        - name: tickethub-auth
+          image: yauheni1234321/tickethub-auth
+          env:
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: global-secrets
+                  key: JWT_SECRET
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tickethub-auth-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: tickethub-auth
+  ports:
+    - name: tickethub-auth
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
